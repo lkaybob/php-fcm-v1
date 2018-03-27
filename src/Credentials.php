@@ -9,6 +9,7 @@
 namespace phpFCMv1;
 
 use \Firebase\JWT\JWT;
+use \GuzzleHttp\Client;
 
 class Credentials {
     const SCOPE = 'https://www.googleapis.com/auth/firebase.messaging';
@@ -20,7 +21,14 @@ class Credentials {
     const GRANT_TYPE = 'urn:ietf:params:oauth:grant-type:jwt-bearer';
 
     private $keyFilePath;
+    private const METHOD = 'POST';
+    private $DATA_TYPE;
 
+    /**
+     * Credentials constructor. Checks whether given path is a valid file.
+     * @param string                        $keyFile
+     * @throws \InvalidArgumentException    when file is not found
+     */
     public function __construct($keyFile = 'service_account.json') {
         if (is_file($keyFile)) {
             $this -> setKeyFilePath($keyFile);
@@ -29,33 +37,28 @@ class Credentials {
         }
     }
 
-    public function getAccessToken() {
+    /**
+     * @return string Access token for a project
+     */
+    public function getAccessToken() : string {
         $requestBody = array(
             'grant_type' => self::GRANT_TYPE,
             'assertion' => $this -> getTokenPayload()
         );
 
-        $curl = curl_init(self::TOKEN_URL);
-        $options = array(
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_HEADER => array('Content-Type: ' . self::CONTENT_TYPE),
-            CURLOPT_POST => true,
-            CURLOPT_POSTFIELDS => http_build_query($requestBody)
-        );
-        curl_setopt_array($curl, $options);
-        $result = curl_exec($curl); // TODO: Error Handling??
-        list($header, $body) = explode("\r\n\r\n", $result);
+        $result = $this -> getToken($requestBody);
 
-        $resultDecoded = json_decode($body, true);
-
-        if (isset($resultDecoded['error'])) {
-            throw new \RuntimeException($resultDecoded['error_description']);
+        if (isset($result['error'])) {
+            throw new \RuntimeException($result['error_description']);
         }
 
-        return $resultDecoded['access_token'];
+        return $result['access_token'];
     }
 
-    private function getTokenPayload() {
+    /**
+     * @return string Signed payload (with private key using algorithm)
+     */
+    private function getTokenPayload() : string {
         $keyBody = json_decode(
             file_get_contents($this -> getKeyFilePath()), true
         );
@@ -75,10 +78,25 @@ class Credentials {
         return $signedJWT;
    }
 
+
+    /**
+     * @param $requestBody array    Payload with assertion data (which is signed)
+     * @return array                Associative array of cURL result
+     */
+    private function getToken($requestBody) : array {
+        $this -> DATA_TYPE = 'form_params';
+
+        $client = new Client();
+        $response = $client -> request(self::METHOD, self::TOKEN_URL,
+            array($this -> DATA_TYPE => $requestBody));
+
+        return json_decode($response->getBody(), true);
+    }
+
     /**
      * @return mixed
      */
-    public function getKeyFilePath() {
+    public function getKeyFilePath() : string {
         return $this -> keyFilePath;
     }
 
@@ -88,5 +106,4 @@ class Credentials {
     public function setKeyFilePath($keyFilePath): void {
         $this -> keyFilePath = $keyFilePath;
     }
-
 }
