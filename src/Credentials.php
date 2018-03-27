@@ -17,11 +17,12 @@ class Credentials {
     const EXPIRE = 3600;
     const ALG = 'RS256';
 
-    const CONTENT_TYPE = 'application/x-www-form-urlencoded';
+    const CONTENT_TYPE = 'form_params';
     const GRANT_TYPE = 'urn:ietf:params:oauth:grant-type:jwt-bearer';
+    const METHOD = 'POST';
+    const HTTP_ERRORS_OPTION = 'http_errors';
 
     private $keyFilePath;
-    private const METHOD = 'POST';
     private $DATA_TYPE;
 
     /**
@@ -78,19 +79,24 @@ class Credentials {
         return $signedJWT;
    }
 
-
     /**
      * @param $requestBody array    Payload with assertion data (which is signed)
      * @return array                Associative array of cURL result
      */
     private function getToken($requestBody) : array {
-        $this -> DATA_TYPE = 'form_params';
-
         $client = new Client();
         $response = $client -> request(self::METHOD, self::TOKEN_URL,
-            array($this -> DATA_TYPE => $requestBody));
+            array(self::CONTENT_TYPE => $requestBody, self::HTTP_ERRORS_OPTION => false));
 
         return json_decode($response->getBody(), true);
+    }
+
+    public function getProjectID() {
+        $keyBody = json_decode(
+            file_get_contents($this -> getKeyFilePath()), true
+        );
+
+        return $keyBody['project_id'];
     }
 
     /**

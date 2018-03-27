@@ -12,24 +12,28 @@ use phpFCMv1\Credentials;
 use PHPUnit\Framework\TestCase;
 
 class CredentialTest extends TestCase {
+    private const KEYFILE_PATH = 'service_account.json';
+    const INVALID_KEY_FILE = 'service_account_false.json';
+
     public function testWithoutKeyFile() : void {
         $this -> expectException(\InvalidArgumentException::class);
         new Credentials(null);
     }
 
     public function testWithKeyFile() : void {
-        $instance = new Credentials('../service_account.json');
-        $this -> assertEquals('../service_account.json', $instance -> getKeyFilePath());
+        $instance = new Credentials(self::KEYFILE_PATH);
+        $this -> assertEquals(self::KEYFILE_PATH, $instance -> getKeyFilePath());
     }
 
     public function testOpenKeyFile() {
-        $body = file_get_contents('../service_account.json');
+        $body = file_get_contents(self::KEYFILE_PATH);
         $encodedBody = json_decode($body, true);
         $this -> assertNotNull($encodedBody['private_key']);
     }
 
     public function testAcquireAccessToken() : void {
-        $instance = new Credentials('../service_account.json');
+        $tokenPrefix = 'ya29.';
+        $instance = new Credentials(self::KEYFILE_PATH);
         try {
             $accessToken = $instance -> getAccessToken();
         }
@@ -37,6 +41,13 @@ class CredentialTest extends TestCase {
             echo $exception -> getMessage();
         }
 
-        $this -> assertNotNull($accessToken);
+        $this -> assertStringStartsWith($tokenPrefix, $accessToken);
+    }
+
+    public function testInvalidAssertion() {
+        $this -> expectException(\RuntimeException::class);
+
+        $instance = new Credentials(self::INVALID_KEY_FILE);
+        $instance -> getAccessToken();
     }
 }

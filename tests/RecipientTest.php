@@ -90,11 +90,4 @@ class RecipientTest extends TestCase {
         $instance -> setSingleRecipient('ANY_TOKEN');
         $instance -> setSingleRecipient("ANOTHER_TOKEN");
     }
-
-    function testInvokeWithoutPayload() {
-        $this -> expectException(\UnderflowException::class);
-        $intance = new Recipient();
-
-        $intance();
-    }
 }

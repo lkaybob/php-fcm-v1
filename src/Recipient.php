@@ -39,12 +39,4 @@ class Recipient extends Base {
             array('condition' => $condition)
         );
     }
-
-    /**
-     * @return array
-     * @throws \UnderflowException
-     */
-    public function __invoke(): array {
-        return parent ::__invoke();
-    }
 }
