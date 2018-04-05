@@ -9,14 +9,15 @@
 namespace phpFCMv1\tests;
 
 use phpFCMv1\Data;
-use phpFCMv1\FCM;
+use phpFCMv1\Client;
 use phpFCMv1\Notification;
 use phpFCMv1\Recipient;
 use \PHPUnit\Framework\TestCase;
 
 class FCMTest extends TestCase {
-    const KEY_FILE = 'service_account.json';
-    const DEVICE_TOKEN = 'eJH9cNs4hc4:APA91bHDwEGN6xEAwbDRpumCRSVnHLGgWXmiwIzAAeUTGP5Fx3diz4mL0T2E5zBVCb_zOfAwwuEsPy4J2504Ct0Mn3NAWVt2MKpvwh1iSUkSMKN0sjTQArMuZpzvm0ioeXkt-QFj3Xvi';
+    const KEY_FILE = '../service_account.json';
+    // const DEVICE_TOKEN = 'eJH9cNs4hc4:APA91bHDwEGN6xEAwbDRpumCRSVnHLGgWXmiwIzAAeUTGP5Fx3diz4mL0T2E5zBVCb_zOfAwwuEsPy4J2504Ct0Mn3NAWVt2MKpvwh1iSUkSMKN0sjTQArMuZpzvm0ioeXkt-QFj3Xvi';
+    const DEVICE_TOKEN = 'dswH6YqIC70:APA91bFaFQM_Jw-hoQAYDwXOVN8ifuIQ_GCpT26h7mt_Q-bYc4g-7q8vQqYD5ILAPwuPbU5uk2kbQtYRyDvnnLHvG3cLMcppN41ri4rYAV-Daf4QyCj4l0anuYS-mXTq1j_yanLvhlCJ';
 
     const TEST_TITLE = 'Testing from Code';
     const TEST_BODY = 'Using phpFCMv1!';
@@ -60,16 +61,16 @@ class FCMTest extends TestCase {
     /**
      * @param $TEST_TITLE
      * @param $TEST_BODY
-     * @return FCM
+     * @return Client
      */
-    private function buildNotification($TEST_TITLE, $TEST_BODY): FCM {
+    private function buildNotification($TEST_TITLE, $TEST_BODY): Client {
         $recipient = new Recipient();
         $recipient -> setSingleRecipient(self::DEVICE_TOKEN);
 
         $notification = new Notification();
         $notification -> setNotification($TEST_TITLE, $TEST_BODY);
 
-        $fcm = new FCM(self::KEY_FILE);
+        $fcm = new Client(self::KEY_FILE);
         $fcm -> build($recipient, $notification, null);
 
         return $fcm;

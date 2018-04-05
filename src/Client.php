@@ -8,9 +8,9 @@
 
 namespace phpFCMv1;
 
-use \GuzzleHttp\Client;
+use \GuzzleHttp;
 
-class FCM {
+class Client {
     const SEND_URL = 'https://fcm.googleapis.com/v1/projects/$0/messages:send';
     const CONTENT_TYPE = 'json';
     const HTTP_ERRORS_OPTION = 'http_errors';
@@ -49,10 +49,6 @@ class FCM {
      * Fires built message
      */
     public function fire() {
-        if (is_null($this -> getPayload()['message'])) {
-            throw new \UnderflowException('Message payload has not been set');
-        }
-
         $options = array(
             'headers' => array(
                 'Authorization' => 'Bearer ' . $this -> credentials -> getAccessToken()
@@ -62,7 +58,8 @@ class FCM {
             self::CONTENT_TYPE => $this -> getPayload(),
             self::HTTP_ERRORS_OPTION => false
         );
-        $client = new Client($options);
+        // Class name conflict occurs, when used as "Client"
+        $client = new GuzzleHttp\Client($options);
         $response = $client -> request('POST', $this -> getURL(), $body);
 
         if ($response -> getStatusCode() == 200) {
