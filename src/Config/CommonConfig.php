@@ -24,10 +24,10 @@ interface CommonConfig {
     function setPriority($priority);
 
     /**
-     * @param $seconds
+     * @param $time
      * @return mixed
      */
-    function setTimeToLive($seconds);
+    function setTimeToLive($time);
 
     /**
      * @return mixed
