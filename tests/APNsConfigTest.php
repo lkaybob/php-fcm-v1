@@ -8,7 +8,10 @@
 
 namespace phpFCMv1\tests;
 
+require_once "FCMTest.php";
+
 use phpFCMv1\Config\APNsConfig;
+use phpFCMv1\tests\FCMTest;
 use PHPUnit\Framework\TestCase;
 
 class APNsConfigTest extends TestCase {
@@ -18,7 +21,7 @@ class APNsConfigTest extends TestCase {
         $payload = $instance -> getPayload();
 
         $this -> assertArrayHasKey('apns', $payload);
-        $this -> assertArrayHasKey('apns-collapse-id', $payload['apns']);
+        $this -> assertArrayHasKey('apns-collapse-id', $payload['apns']['headers']);
     }
 
     public function testSetPriority() {
@@ -27,7 +30,7 @@ class APNsConfigTest extends TestCase {
         $payload = $instance -> getPayload();
 
         $this -> assertArrayHasKey('apns', $payload);
-        $this -> assertArrayHasKey('apns-priority', $payload['apns']);
+        $this -> assertArrayHasKey('apns-priority', $payload['apns']['headers']);
     }
 
     public function testSetTimeToLive() {
@@ -41,9 +44,53 @@ class APNsConfigTest extends TestCase {
         $payload = $instance -> getPayload();
 
         $this -> assertArrayHasKey('apns', $payload);
-        $this -> assertArrayHasKey('apns-expiration', $payload['apns']);
+        $this -> assertArrayHasKey('apns-expiration', $payload['apns']['headers']);
 
-        $end = new \DateTime('@'.$payload['apns']['apns-expiration']);
+        $end = new \DateTime('@'.$payload['apns']['headers']['apns-expiration']);
         $this -> assertEquals(1, $end -> diff($start) -> d);
+    }
+
+    public function testPriorityFire() {
+        // $this -> markTestSkipped('Preventing too many notifications');
+        $config = new APNsConfig();
+        $config -> setPriority(APNsConfig::PRIORITY_HIGH);
+        $result = $this -> fireWithConfig($config);
+
+        $this -> assertTrue($result);
+    }
+
+    public function testCollapseKeyFire() {
+        // $this -> markTestSkipped('Preventing too many notifications');
+        $config = new APNsConfig();
+        $config -> setCollapseKey('test');
+        $firstResult = $this -> fireWithConfig($config);
+        sleep(5);
+        $secondResult = $this -> fireWithConfig($config);
+
+        $this -> assertEquals($firstResult, $secondResult);
+        $this -> assertTrue($firstResult);
+    }
+
+    public function testTimeToLiveFire() {
+        // $this -> markTestSkipped('Preventing too many notifications');
+        $config = new APNsConfig();
+        try {
+            $config -> setTimeToLive(1);
+        } catch (\Exception $e) {
+        }
+        $result = $this -> fireWithConfig($config);
+
+        $this -> assertTrue($result);
+    }
+
+    /**
+     * @param $config
+     * @return bool
+     */
+    protected function fireWithConfig($config): bool {
+        $fcmTest = new FCMTest();
+        $client = $fcmTest -> buildNotification(FCMTest::TEST_TITLE, FCMTest::TEST_BODY, $config);
+        $result = $client -> fire();
+        return $result;
     }
 }

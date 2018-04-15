@@ -25,7 +25,15 @@ class Client {
         $this -> payload = array('message' => null);
     }
 
-    public function build(Recipient $recipient, Notification $notification = null, Data $data = null) {
+    /**
+     * @param Recipient $recipient : Recipient token or topic for the notificaation
+     * @param Notification|null $notification : Notification with title & body to send.
+     *                                          Not required, if only downstream data payload is needed
+     * @param Data|null $data : (Optional) Downstream data payload to send
+     * @param CommonConfig|null $config : (Optional) CommonConfig instance to define optional characteristics
+     *                                    of notification
+     */
+    public function build(Recipient $recipient, Notification $notification = null, Data $data = null, CommonConfig $config = null) {
         $result = $recipient();
         $isPlayload = false;
 
@@ -36,6 +44,10 @@ class Client {
         if (!is_null($data)) {
             $result = array_merge($result, $data());
             $isPlayload = true;
+        }
+
+        if (!is_null($config)) {
+            $result = array_merge($result, $config());
         }
 
         if (!$isPlayload) {
@@ -63,7 +75,6 @@ class Client {
         $response = $client -> request('POST', $this -> getURL(), $body);
 
         if ($response -> getStatusCode() == 200) {
-            // TODO: Message의 Instance도 return하면 좋지 않을까
             return true;
         } else {
             $result = json_decode($response -> getBody(), true);

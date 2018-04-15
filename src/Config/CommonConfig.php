@@ -33,4 +33,6 @@ interface CommonConfig {
      * @return mixed
      */
     function getPayload();
+
+    function __invoke();
 }

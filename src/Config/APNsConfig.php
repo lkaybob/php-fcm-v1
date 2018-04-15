@@ -9,11 +9,15 @@
 namespace phpFCMv1\Config;
 
 class APNsConfig implements CommonConfig {
-    const PRIORITY_HIGH = 10, PRIORITY_NORMAL = 5;
+    const PRIORITY_HIGH = '10', PRIORITY_NORMAL = '5';
     private $payload;
 
     public function __construct() {
         $this -> payload = array();
+    }
+
+    public function __invoke() {
+        return $this -> getPayload();
     }
 
     /**
@@ -59,9 +63,11 @@ class APNsConfig implements CommonConfig {
      */
     public function getPayload() {
         if (!sizeof($this -> payload)) {
-            return null;
+            // To prevent erorr on array_merge. Returns empty array
+            return $this -> payload;
         } else {
-            $payload = array('apns' => $this -> payload);
+            // 'apns' should have 'header' & 'payload' field
+            $payload = array('apns' => array('headers' => $this -> payload));
             return $payload;
         }
     }

@@ -61,9 +61,10 @@ class FCMTest extends TestCase {
     /**
      * @param $TEST_TITLE
      * @param $TEST_BODY
+     * @param CommonConfig|null $config
      * @return Client
      */
-    private function buildNotification($TEST_TITLE, $TEST_BODY): Client {
+    public function buildNotification($TEST_TITLE, $TEST_BODY, CommonConfig $config = null): Client {
         $recipient = new Recipient();
         $recipient -> setSingleRecipient(self::DEVICE_TOKEN);
 
@@ -71,7 +72,7 @@ class FCMTest extends TestCase {
         $notification -> setNotification($TEST_TITLE, $TEST_BODY);
 
         $fcm = new Client(self::KEY_FILE);
-        $fcm -> build($recipient, $notification, null);
+        $fcm -> build($recipient, $notification, null, $config);
 
         return $fcm;
     }
