@@ -60,4 +60,9 @@ class AndroidConfig implements CommonConfig {
             return $payload;
         }
     }
+
+    function __invoke() {
+        // TODO: Implement __invoke() method.
+        return $this -> getPayload();
+    }
 }

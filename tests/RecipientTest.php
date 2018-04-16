@@ -8,6 +8,8 @@
 
 namespace phpFCMv1\tests;
 
+require_once __DIR__ . '/../vendor/autoload.php';
+
 use phpFCMv1\Recipient;
 use PHPUnit\Framework\TestCase;
 

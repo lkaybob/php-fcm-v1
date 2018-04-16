@@ -1,8 +1,13 @@
 {
     "autoload":{
-        "classmap":[
-            "src/"
-        ]
+        "psr-4": {
+            "phpFCMv1\\":"src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "phpFCMv1\\tests\\":"tests/"
+        }
     },
     "require": {
         "firebase/php-jwt": "^5.0",

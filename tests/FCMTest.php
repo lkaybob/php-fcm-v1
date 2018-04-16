@@ -8,6 +8,9 @@
 
 namespace phpFCMv1\tests;
 
+require_once __DIR__ . '/../vendor/autoload.php';
+
+use phpFCMv1\Config\CommonConfig;
 use phpFCMv1\Data;
 use phpFCMv1\Client;
 use phpFCMv1\Notification;
@@ -47,6 +50,7 @@ class FCMTest extends TestCase {
     }
 
     public function testFireWithIncorrectPayload() {
+        // $this -> markTestSkipped(__METHOD__ . ' already passed');
         $fcm = $this -> buildNotification(self::TEST_TITLE, self::TEST_BODY);
 
         $payload = $fcm -> getPayload();

@@ -8,10 +8,9 @@
 
 namespace phpFCMv1\tests;
 
-require_once "FCMTest.php";
+require_once __DIR__ . '/../vendor/autoload.php';
 
 use phpFCMv1\Config\APNsConfig;
-use phpFCMv1\tests\FCMTest;
 use PHPUnit\Framework\TestCase;
 
 class APNsConfigTest extends TestCase {

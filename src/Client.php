@@ -9,6 +9,7 @@
 namespace phpFCMv1;
 
 use \GuzzleHttp;
+use phpFCMv1\Config\CommonConfig;
 
 class Client {
     const SEND_URL = 'https://fcm.googleapis.com/v1/projects/$0/messages:send';
