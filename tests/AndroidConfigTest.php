@@ -8,7 +8,7 @@
 
 namespace phpFCMv1\tests;
 
-require_once __DIR__ . "../vendor/autoload.php";
+require_once __DIR__ . "/../vendor/autoload.php";
 
 use phpFCMv1\Config\AndroidConfig;
 use PHPUnit\Framework\TestCase;
@@ -57,5 +57,42 @@ class AndroidConfigTest extends TestCase {
         $payload = $instance -> getPayload();
 
         $this -> assertEquals('5s', $payload['android']['ttl']);
+    }
+
+    public function testCollapseKeyFire() {
+        $this -> markTestSkipped("Skipping passed test");
+        $config = new AndroidConfig();
+        $fcmTest = new FCMTest();
+        $config -> setCollapseKey('test');
+        $firstResult = $fcmTest -> fireWithConfig($config);
+        $this -> assertTrue($firstResult);
+        sleep(5);
+
+        $secondResult = $fcmTest -> fireWithConfig($config);
+        $this -> assertEquals($firstResult, $secondResult);
+        $secondResult = $fcmTest -> fireWithConfig($config);
+        $secondResult = $fcmTest -> fireWithConfig($config);
+        $secondResult = $fcmTest -> fireWithConfig($config);
+
+    }
+
+    public function testPriorityFire() {
+        // $this -> markTestSkipped("Should check later");
+        $config = new AndroidConfig();
+        $fcmTest = new FCMTest();
+        $config -> setPriority(AndroidConfig::PRIORITY_HIGH);
+        $result = $fcmTest -> fireWithConfig($config);
+
+        $this -> assertTrue($result);
+    }
+
+    public function testTimeToLive() {
+        $this -> markTestSkipped("Skipping passed test");
+        $config = new AndroidConfig();
+        $fcmTest = new FCMTest();
+        $config -> setTimeToLive(60);
+        $result = $fcmTest -> fireWithConfig($config);
+
+        $this -> assertTrue($result);
     }
 }
