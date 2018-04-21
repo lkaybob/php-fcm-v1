@@ -97,6 +97,13 @@ class Client {
         $this -> payload['message'] = $payload;
     }
 
+    public function setValidateOnly($option) {
+        if (is_bool($option))
+            $this -> payload['validate_only'] = $option;
+        else
+            throw new \InvalidArgumentException('validate_only option only allows boolean');
+    }
+
     private function setProjectID() {
         $projectId = $this -> credentials -> getProjectID();
         $pattern = '/\$0/';

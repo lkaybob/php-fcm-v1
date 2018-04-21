@@ -76,8 +76,19 @@ class FCMTest extends TestCase {
         $notification -> setNotification($TEST_TITLE, $TEST_BODY);
 
         $fcm = new Client(self::KEY_FILE);
+        $fcm -> setValidateOnly(true);
         $fcm -> build($recipient, $notification, null, $config);
 
         return $fcm;
+    }
+
+    /**
+     * @param $config
+     * @return bool
+     */
+    public function fireWithConfig($config): bool {
+        $client = $this -> buildNotification(FCMTest::TEST_TITLE, FCMTest::TEST_BODY, $config);
+        $result = $client -> fire();
+        return $result;
     }
 }
