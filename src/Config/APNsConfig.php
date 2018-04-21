@@ -43,13 +43,13 @@ class APNsConfig implements CommonConfig {
     }
 
     /**
-     * @param $time : Time for notification to live in days
+     * @param $time : Time for notification to live in seconds
      * @return mixed    : Expiration option using UNIX epoch date
      * @throws \Exception
      */
     function setTimeToLive($time) {
         $expiration = new \DateTime('now');
-        $expiration -> add(new \DateInterval('P' . $time . 'D'));
+        $expiration -> add(new \DateInterval('PT' . $time . 'S'));
         $expValue = $expiration -> format('U');
 
         $payload = array_merge($this -> payload, array('apns-expiration' => $expValue));
