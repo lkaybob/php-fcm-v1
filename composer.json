@@ -1,4 +1,19 @@
 {
+    "name": "lkaybob/phpFCMv1",
+    "type": "library",
+    "description": "PHP Implementation of GCM HTTP v1 API",
+    "tags": ["php","notifications","google","android","gcm","ios","firebase","FCM","Firebase Cloud Messaging",
+        "push notification"],
+    "homepage": "https://github.com/lkaybob/phpFCMv1",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Lawrence Kay",
+            "email": "me@lkaybob.pe.kr",
+            "homepage": "https://blog.lkaybob.pe.kr",
+            "role":"Developer"
+        }
+    ],
     "autoload":{
         "psr-4": {
             "phpFCMv1\\":"src/"
@@ -10,6 +25,7 @@
         }
     },
     "require": {
+        "php": ">=7.0.0",
         "firebase/php-jwt": "^5.0",
         "guzzlehttp/guzzle": "~6.0"
     },
