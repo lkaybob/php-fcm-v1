@@ -1,6 +1,6 @@
-# phpFCMv1
+# php-fcm-v1
 
-phpFCMv1 is an PHP implementation of [FCM](https://firebase.google.com/docs/cloud-messaging) HTTP v1 API
+php-fcm-v1 is an PHP implementation of [FCM](https://firebase.google.com/docs/cloud-messaging) HTTP v1 API
 
 ### What is different compared to others FCM Libraries?
 Most of other libraries are implementation of FCM's [Legacy HTTP Server Protocol](https://firebase.google.com/docs/cloud-messaging/http-server-ref). It requires a server key from Firebase console (which means you have to copy and paste in your code) ([Docs](https://firebase.google.com/docs/cloud-messaging/auth-server#authorize_legacy_protocol_send_requests))
