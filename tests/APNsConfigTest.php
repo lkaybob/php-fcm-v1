@@ -46,7 +46,7 @@ class APNsConfigTest extends TestCase {
         $this -> assertArrayHasKey('apns-expiration', $payload['apns']['headers']);
 
         $end = new \DateTime('@' . $payload['apns']['headers']['apns-expiration']);
-        $this -> assertEquals(1, $end -> diff($start) -> d);
+        $this -> assertEquals(1, $end -> diff($start) -> s);
     }
 
     public function testPriorityFire() {
