@@ -60,7 +60,7 @@ class AndroidConfigTest extends TestCase {
     }
 
     public function testCollapseKeyFire() {
-        $this -> markTestSkipped("Skipping passed test");
+        // $this -> markTestSkipped("Skipping passed test");
         $config = new AndroidConfig();
         $fcmTest = new FCMTest();
         $config -> setCollapseKey('test');
@@ -87,7 +87,7 @@ class AndroidConfigTest extends TestCase {
     }
 
     public function testTimeToLive() {
-        $this -> markTestSkipped("Skipping passed test");
+        // $this -> markTestSkipped("Skipping passed test");
         $config = new AndroidConfig();
         $fcmTest = new FCMTest();
         $config -> setTimeToLive(60);

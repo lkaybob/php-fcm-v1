@@ -1,0 +1,19 @@
+language: php
+
+php:
+  - 7.0
+  - 7.1
+  - 7.2
+
+before_install:
+  - openssl aes-256-cbc -K $encrypted_f2e6dfafc496_key -iv $encrypted_f2e6dfafc496_iv -in service_account.json.enc -out service_account.json -d
+
+install:
+  - composer self-update
+  - composer install
+
+script:
+  - ./vendor/bin/phpunit
+
+after_script:
+  - bash <(curl -s https://codecov.io/bash)
