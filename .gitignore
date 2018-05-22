@@ -83,3 +83,6 @@ service_account.json
 
 # PHPUnit HTML Report
 report/
+
+# PHP Unit Local Test Configureation
+phpunit.local.xml

@@ -18,7 +18,7 @@ use phpFCMv1\Recipient;
 use \PHPUnit\Framework\TestCase;
 
 class FCMTest extends TestCase {
-    const KEY_FILE = '../service_account.json';
+    const KEY_FILE = 'service_account.json';
     // const DEVICE_TOKEN = 'eJH9cNs4hc4:APA91bHDwEGN6xEAwbDRpumCRSVnHLGgWXmiwIzAAeUTGP5Fx3diz4mL0T2E5zBVCb_zOfAwwuEsPy4J2504Ct0Mn3NAWVt2MKpvwh1iSUkSMKN0sjTQArMuZpzvm0ioeXkt-QFj3Xvi';
     const DEVICE_TOKEN = 'dswH6YqIC70:APA91bFaFQM_Jw-hoQAYDwXOVN8ifuIQ_GCpT26h7mt_Q-bYc4g-7q8vQqYD5ILAPwuPbU5uk2kbQtYRyDvnnLHvG3cLMcppN41ri4rYAV-Daf4QyCj4l0anuYS-mXTq1j_yanLvhlCJ';
 
@@ -27,22 +27,22 @@ class FCMTest extends TestCase {
 
     public function testBuild() {
         $fcm = $this -> buildNotification(self::TEST_TITLE, self::TEST_BODY);
+        $payload = $fcm -> getPayload();
 
         $expected = array(
-            'message' => array(
-                'token' => self::DEVICE_TOKEN,
-                'notification' => array(
-                    'title' => self::TEST_TITLE,
-                    'body' => self::TEST_BODY
-                )
+            'token' => self::DEVICE_TOKEN,
+            'notification' => array(
+                'title' => self::TEST_TITLE,
+                'body' => self::TEST_BODY
             )
         );
-        $this -> assertEquals($expected, $fcm -> getPayload());
+        $this -> assertArrayHasKey('message', $payload);
+        $this -> assertEquals($expected, $payload['message']);
     }
 
     public function testFire() {
         // $this -> markTestSkipped(__METHOD__ . ' already passed');
-        $fcm = $this -> buildNotification(self::TEST_TITLE, self::TEST_BODY, self::KEY_FILE);
+        $fcm = $this -> buildNotification(self::TEST_TITLE, self::TEST_BODY);
         $result = $fcm -> fire();
         echo $result;
 

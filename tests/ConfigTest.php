@@ -14,7 +14,7 @@ use \PHPUnit\Framework\TestCase;
 class ConfigTest extends TestCase {
 
     public function testSetCollapseKey() {
-        $this -> markTestSkipped("Skipping passed test");
+        // $this -> markTestSkipped("Skipping passed test");
         $fcmTest = new FCMTest();
         $config = new Config();
 
@@ -25,7 +25,7 @@ class ConfigTest extends TestCase {
     }
 
     public function testSetTimeToLive() {
-        $this -> markTestSkipped("Implemented");
+        // $this -> markTestSkipped("Implemented");
         $fcmTest = new FCMTest();
         $config = new Config();
 
