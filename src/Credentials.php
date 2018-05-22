@@ -9,7 +9,7 @@
 namespace phpFCMv1;
 
 use \Firebase\JWT\JWT;
-use \GuzzleHttp\Client;
+use \GuzzleHttp;
 
 class Credentials {
     const SCOPE = 'https://www.googleapis.com/auth/firebase.messaging';
@@ -84,7 +84,7 @@ class Credentials {
      * @return array                Associative array of cURL result
      */
     private function getToken($requestBody) : array {
-        $client = new Client();
+        $client = new GuzzleHttp\Client();
         $response = $client -> request(self::METHOD, self::TOKEN_URL,
             array(self::CONTENT_TYPE => $requestBody, self::HTTP_ERRORS_OPTION => false));
 
