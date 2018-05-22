@@ -85,7 +85,7 @@ class Credentials {
      * @throws GuzzleHttp\Exception\GuzzleException
      *                              This exception is intentional
      */
-    private function getToken($requestBody) : array {
+    private function getToken($requestBody) {
         $client = new GuzzleHttp\Client();
         $response = $client -> request(self::METHOD, self::TOKEN_URL,
             array(self::CONTENT_TYPE => $requestBody, self::HTTP_ERRORS_OPTION => false));
