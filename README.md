@@ -1,4 +1,6 @@
 # php-fcm-v1
+[![Build Status](https://travis-ci.org/lkaybob/php-fcm-v1.svg?branch=master)](https://travis-ci.org/lkaybob/php-fcm-v1)
+[![codecov](https://codecov.io/gh/lkaybob/php-fcm-v1/branch/master/graph/badge.svg)](https://codecov.io/gh/lkaybob/php-fcm-v1)
 
 php-fcm-v1 is an PHP implementation of [FCM](https://firebase.google.com/docs/cloud-messaging) HTTP v1 API
 
