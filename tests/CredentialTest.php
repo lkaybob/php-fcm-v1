@@ -14,15 +14,15 @@ use phpFCMv1\Credentials;
 use PHPUnit\Framework\TestCase;
 
 class CredentialTest extends TestCase {
-    private const KEYFILE_PATH = 'service_account.json';
+    const KEYFILE_PATH = 'service_account.json';
     const INVALID_KEY_FILE = 'service_account_false.json';
 
-    public function testWithoutKeyFile() : void {
+    public function testWithoutKeyFile() {
         $this -> expectException(\InvalidArgumentException::class);
         new Credentials(null);
     }
 
-    public function testWithKeyFile() : void {
+    public function testWithKeyFile()  {
         $instance = new Credentials(self::KEYFILE_PATH);
         $this -> assertEquals(self::KEYFILE_PATH, $instance -> getKeyFilePath());
     }
@@ -33,7 +33,7 @@ class CredentialTest extends TestCase {
         $this -> assertNotNull($encodedBody['private_key']);
     }
 
-    public function testAcquireAccessToken() : void {
+    public function testAcquireAccessToken() {
         $tokenPrefix = 'ya29.';
         $instance = new Credentials(self::KEYFILE_PATH);
         try {

@@ -19,21 +19,21 @@ class Recipient extends Base {
         // TODO: Constructor로 한 번에 정의할 수 있도록 하자
     }
 
-    public function setSingleRecipient($token) : void {
+    public function setSingleRecipient($token)  {
         $this -> validateCurrent($token);
         $this -> setPayload(
             array('token' => $token)
         );
     }
 
-    public function setTopicRecipient($topic) : void {
+    public function setTopicRecipient($topic)  {
         $this -> validateCurrent($topic);
         $this -> setPayload(
             array('topic' => $topic)
         );
     }
 
-    public function setConditionalRecipient($condition): void {
+    public function setConditionalRecipient($condition) {
         $this -> validateCurrent($condition);
         $this -> setPayload(
             array('condition' => $condition)

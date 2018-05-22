@@ -25,7 +25,7 @@ class Notification extends Base {
      * @return array
      * @throws \UnderflowException
      */
-    public function __invoke(): array {
+    public function __invoke() {
         return parent ::__invoke();
     }
 }
