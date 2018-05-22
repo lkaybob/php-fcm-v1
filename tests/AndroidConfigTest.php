@@ -70,10 +70,6 @@ class AndroidConfigTest extends TestCase {
 
         $secondResult = $fcmTest -> fireWithConfig($config);
         $this -> assertEquals($firstResult, $secondResult);
-        $secondResult = $fcmTest -> fireWithConfig($config);
-        $secondResult = $fcmTest -> fireWithConfig($config);
-        $secondResult = $fcmTest -> fireWithConfig($config);
-
     }
 
     public function testPriorityFire() {

@@ -55,7 +55,7 @@ abstract class Base {
     /**
      * @param mixed $payload
      */
-    public function setPayload($payload): void {
+    public function setPayload($payload) {
         $this -> payload = $payload;
     }
 }

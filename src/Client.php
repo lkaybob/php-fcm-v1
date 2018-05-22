@@ -86,14 +86,14 @@ class Client {
     /**
      * @return array
      */
-    public function getPayload(): array {
+    public function getPayload() {
         return $this -> payload;
     }
 
     /**
      * @param array $payload
      */
-    public function setPayload(array $payload): void {
+    public function setPayload(array $payload) {
         $this -> payload['message'] = $payload;
     }
 

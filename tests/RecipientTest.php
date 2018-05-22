@@ -70,7 +70,7 @@ class RecipientTest extends TestCase {
         $instance -> setSingleRecipient(null);
     }
 
-    function testTopicRecipientWithoutTopic(): void {
+    function testTopicRecipientWithoutTopic() {
         $this -> expectException(\InvalidArgumentException::class);
 
         $instance = new Recipient();

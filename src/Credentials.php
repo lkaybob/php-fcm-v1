@@ -9,7 +9,7 @@
 namespace phpFCMv1;
 
 use \Firebase\JWT\JWT;
-use \GuzzleHttp\Client;
+use \GuzzleHttp;
 
 class Credentials {
     const SCOPE = 'https://www.googleapis.com/auth/firebase.messaging';
@@ -41,7 +41,7 @@ class Credentials {
     /**
      * @return string Access token for a project
      */
-    public function getAccessToken() : string {
+    public function getAccessToken()  {
         $requestBody = array(
             'grant_type' => self::GRANT_TYPE,
             'assertion' => $this -> getTokenPayload()
@@ -59,7 +59,7 @@ class Credentials {
     /**
      * @return string Signed payload (with private key using algorithm)
      */
-    private function getTokenPayload() : string {
+    private function getTokenPayload()  {
         $keyBody = json_decode(
             file_get_contents($this -> getKeyFilePath()), true
         );
@@ -82,9 +82,11 @@ class Credentials {
     /**
      * @param $requestBody array    Payload with assertion data (which is signed)
      * @return array                Associative array of cURL result
+     * @throws GuzzleHttp\Exception\GuzzleException
+     *                              This exception is intentional
      */
-    private function getToken($requestBody) : array {
-        $client = new Client();
+    private function getToken($requestBody) {
+        $client = new GuzzleHttp\Client();
         $response = $client -> request(self::METHOD, self::TOKEN_URL,
             array(self::CONTENT_TYPE => $requestBody, self::HTTP_ERRORS_OPTION => false));
 
@@ -102,14 +104,14 @@ class Credentials {
     /**
      * @return mixed
      */
-    public function getKeyFilePath() : string {
+    public function getKeyFilePath()  {
         return $this -> keyFilePath;
     }
 
     /**
      * @param mixed $keyFilePath
      */
-    public function setKeyFilePath($keyFilePath): void {
+    public function setKeyFilePath($keyFilePath) {
         $this -> keyFilePath = $keyFilePath;
     }
 }
