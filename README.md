@@ -1,6 +1,10 @@
+
 # php-fcm-v1
 [![Build Status](https://travis-ci.org/lkaybob/php-fcm-v1.svg?branch=master)](https://travis-ci.org/lkaybob/php-fcm-v1)
 [![codecov](https://codecov.io/gh/lkaybob/php-fcm-v1/branch/master/graph/badge.svg)](https://codecov.io/gh/lkaybob/php-fcm-v1)
+[![Latest Stable Version](https://poser.pugx.org/lkaybob/php-fcm-v1/v/stable)](https://packagist.org/packages/lkaybob/php-fcm-v1)
+[![Total Downloads](https://poser.pugx.org/lkaybob/php-fcm-v1/downloads)](https://packagist.org/packages/lkaybob/php-fcm-v1)
+[![License](https://poser.pugx.org/lkaybob/php-fcm-v1/license)](https://packagist.org/packages/lkaybob/php-fcm-v1)
 
 php-fcm-v1 is an PHP implementation of [FCM](https://firebase.google.com/docs/cloud-messaging) HTTP v1 API
 
@@ -22,17 +26,18 @@ HTTP v1 API, in contrast, leverages OAuth2 security model. You need to get an ac
 * Install the library with composer
 
   ```
-  composer install lkaybob/phpFCMv1
+  composer require lkaybob/php-fcm-v1
   ```
-
+****
 * Import the library with *autoload.php*
 
   ```php
-  require_once __DIR__ . '/vender/autoload.php';
+  <?php
+  require_once __DIR__ . '/vendor/autoload.php';
 
-  use lkaybob\phpFCMv1\Client;
-  use lkaybob\phpFCMv1\Notification;
-  use lkaybob\phpFCMv1\Recipient;
+  use phpFCMv1\Client;
+  use phpFCMv1\Notification;
+  use phpFCMv1\Recipient;
   ```
 
 * Create Necessary class instances, Client, Recipient, Notification/Data
@@ -132,10 +137,7 @@ HTTP v1 API, in contrast, leverages OAuth2 security model. You need to get an ac
 
 ### Future Works
 
-[ ] Implement simultaneous send (Currently supports single recipient or topic one at a time)
-
-[ ] Setup Read the Docs
-
-[ ] Add CI Test
-
-[ ] Add CodeCov Badge
+- [ ] Implement simultaneous send (Currently supports single recipient or topic one at a time)
+- [ ] Setup Read the Docs
+- [x] Add CI Test
+- [x] Add CodeCov Badge
