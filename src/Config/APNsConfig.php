@@ -84,7 +84,7 @@ class APNsConfig implements CommonConfig {
     private function roundUpMilliseconds() {
         $converted = new DateTime('now');
 
-        if ($converted->format('u') != 0) {
+        if ($converted->format('u') != 0 && strpos(PHP_VERSION,'7.1') !== 0) {
             $converted = $converted->add(new DateInterval('PT1S'));
         }
 
