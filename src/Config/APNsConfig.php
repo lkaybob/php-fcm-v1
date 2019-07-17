@@ -8,6 +8,10 @@
 
 namespace phpFCMv1\Config;
 
+use DateInterval;
+use DateTime;
+use Exception;
+
 class APNsConfig implements CommonConfig {
     const PRIORITY_HIGH = '10', PRIORITY_NORMAL = '5';
     private $payload;
@@ -45,11 +49,11 @@ class APNsConfig implements CommonConfig {
     /**
      * @param $time : Time for notification to live in seconds
      * @return mixed    : Expiration option using UNIX epoch date
-     * @throws \Exception
+     * @throws Exception
      */
     function setTimeToLive($time) {
-        $expiration = new \DateTime('now');
-        $expiration -> add(new \DateInterval('PT' . $time . 'S'));
+        $expiration = DateTime::createFromFormat('U', $this->roundUpMilliseconds());
+        $expiration -> add(new DateInterval('PT' . $time . 'S'));
         $expValue = $expiration -> format('U');
 
         $payload = array_merge($this -> payload, array('apns-expiration' => $expValue));
@@ -70,5 +74,15 @@ class APNsConfig implements CommonConfig {
             $payload = array('apns' => array('headers' => $this -> payload));
             return $payload;
         }
+    }
+
+    /**
+     * Path for PHP@7.2. Refer to the issue.
+     * https://github.com/lkaybob/php-fcm-v1/issues/3
+     * @return string
+     */
+    private function roundUpMilliseconds() {
+        $converted = (new DateTime('now'))->add(new DateInterval('PT1S'));
+        return $converted->format('U');
     }
 }
