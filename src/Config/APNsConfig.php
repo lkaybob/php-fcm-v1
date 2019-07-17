@@ -82,7 +82,12 @@ class APNsConfig implements CommonConfig {
      * @return string
      */
     private function roundUpMilliseconds() {
-        $converted = (new DateTime('now'))->add(new DateInterval('PT1S'));
+        $converted = new DateTime('now');
+
+        if ($converted->format('u') != 0) {
+            $converted = $converted->add(new DateInterval('PT1S'));
+        }
+
         return $converted->format('U');
     }
 }
