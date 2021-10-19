@@ -26,13 +26,7 @@ class Notification extends Base {
             $payload['data'] = $data; 
        }
            
-        $this -> setPayload(
-                array('notification' => array(
-                    'title' => $title,
-                    'body' => $message
-                ))
-           );
-       
+        $this -> setPayload($payload);     
     }
 
     /**
