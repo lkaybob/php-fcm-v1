@@ -11,14 +11,28 @@ namespace phpFCMv1;
 
 class Notification extends Base {
 
-    public function setNotification($title, $message) {
+    public function setNotification($title, $message, $data = null) {
         $this -> validateCurrent($title, $message);
-        $this -> setPayload(
-            array('notification' => array(
-                'title' => $title,
-                'body' => $message
-            ))
-        );
+        if (is_array($data) && count($data)>0){
+            $this -> setPayload(
+                array(
+                    'notification' =>
+                    array(
+                        'title' => $title,
+                        'body' => $message
+                    ),
+                    'data' => $data
+                )
+            );
+        
+       } else {
+           $this -> setPayload(
+                array('notification' => array(
+                    'title' => $title,
+                    'body' => $message
+                ))
+            );
+       }
     }
 
     /**
