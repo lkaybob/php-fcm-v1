@@ -13,26 +13,26 @@ class Notification extends Base {
 
     public function setNotification($title, $message, $data = null) {
         $this -> validateCurrent($title, $message);
-        if (is_array($data) && count($data)>0){
-            $this -> setPayload(
-                array(
+        
+        $payload =  array(
                     'notification' =>
                     array(
                         'title' => $title,
                         'body' => $message
-                    ),
-                    'data' => $data
-                )
-            );
+                    )
+        );
         
-       } else {
-           $this -> setPayload(
+        if (is_array($data) && count($data)>0){
+            $payload['data'] = $data; 
+       }
+           
+        $this -> setPayload(
                 array('notification' => array(
                     'title' => $title,
                     'body' => $message
                 ))
-            );
-       }
+           );
+       
     }
 
     /**
