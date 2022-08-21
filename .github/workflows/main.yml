@@ -1,0 +1,38 @@
+name: Test Code Runner
+
+on: [pull_request, push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Check passphrase
+        run: echo $PLAINTEXT
+        env:
+          DEBUG_PHRASE: ${{ secrets.GPG_PASSPHRASE }}
+          PLAINTEXT: $DEBUG_PHRASE
+
+      - name: Decrypt large secret
+        run: ./decrypt_secret.sh
+        env:
+          LARGE_SECRET_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+
+      - uses: php-actions/composer@v5
+        with:
+          php_version: 7.2
+
+      - name: PHPUnit Tests
+        uses: php-actions/phpunit@v2
+        with:
+          version: 8
+          php_version: 7.2
+          bootstrap: vendor/autoload.php
+          configuration: phpunit.xml
+          args: --coverage-text
+
+      - uses: codecov/codecov-action@v3
+        with:
+          files: ./clover.xml
