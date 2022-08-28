@@ -1,6 +1,6 @@
 
 # php-fcm-v1
-[![Build Status](https://travis-ci.org/lkaybob/php-fcm-v1.svg?branch=master)](https://travis-ci.org/lkaybob/php-fcm-v1)
+[![Build Status](https://github.com/lkaybob/php-fcm-v1/actions/workflows/main.yml/badge.svg)](https://github.com/lkaybob/php-fcm-v1/actions)
 [![codecov](https://codecov.io/gh/lkaybob/php-fcm-v1/branch/master/graph/badge.svg)](https://codecov.io/gh/lkaybob/php-fcm-v1)
 [![Latest Stable Version](https://poser.pugx.org/lkaybob/php-fcm-v1/v/stable)](https://packagist.org/packages/lkaybob/php-fcm-v1)
 [![Total Downloads](https://poser.pugx.org/lkaybob/php-fcm-v1/downloads)](https://packagist.org/packages/lkaybob/php-fcm-v1)
