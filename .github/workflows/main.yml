@@ -1,6 +1,12 @@
 name: Test Code Runner
 
-on: [pull_request, push]
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
 
 jobs:
   build:
@@ -30,9 +36,9 @@ jobs:
           version: 8
           php_version: 7.2
           bootstrap: vendor/autoload.php
-          configuration: phpunit.xml
+          configuration: ./phpunit.xml
           args: --coverage-text
 
       - uses: codecov/codecov-action@v3
         with:
-          files: ./app/clover.xml
+          files: ./clover.xml
