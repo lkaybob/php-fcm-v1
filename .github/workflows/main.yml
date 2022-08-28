@@ -37,7 +37,6 @@ jobs:
           php_version: 7.2
           bootstrap: vendor/autoload.php
           configuration: ./phpunit.xml
-          args: --coverage-text
 
       - uses: codecov/codecov-action@v3
         with:
