@@ -32,11 +32,15 @@ jobs:
 
       - name: PHPUnit Tests
         uses: php-actions/phpunit@v2
+        env:
+          XDEBUG_MODE: coverage
         with:
           version: 8
           php_version: 7.2
           bootstrap: vendor/autoload.php
-          configuration: ./phpunit.xml
+          php_extensions: xdebug
+          configuration: phpunit.xml
+          args: tests --coverage-clover ./coverage.xml
 
       - uses: codecov/codecov-action@v3
         with:
