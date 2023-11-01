@@ -39,6 +39,16 @@ class AndroidConfig implements CommonConfig {
     }
 
     /**
+     * @param $image : string
+     * @return mixed
+     */
+    function setImage($image) {
+        $payload =  array_merge($this -> payload, array('notification' => ['image'=>$image]));
+        $this -> payload = $payload;
+        return null;
+    }
+
+    /**
      * @param $time
      * @return mixed
      */

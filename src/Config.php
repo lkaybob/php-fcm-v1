@@ -58,6 +58,15 @@ class Config implements CommonConfig {
     }
 
     /**
+     * @param $image : string
+     * @return mixed
+     */
+    function setImage($image_url) {
+        $this -> androidConfig -> setImage($image_url);
+        return null;
+    }
+
+    /**
      * @param $time : seconds
      * @return mixed
      */

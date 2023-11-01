@@ -15,6 +15,7 @@ use phpFCMv1\Data;
 use phpFCMv1\Client;
 use phpFCMv1\Notification;
 use phpFCMv1\Recipient;
+use phpFCMv1\Config;
 use \PHPUnit\Framework\TestCase;
 
 class FCMTest extends TestCase {
@@ -24,6 +25,7 @@ class FCMTest extends TestCase {
 
     const TEST_TITLE = 'Testing from Code';
     const TEST_BODY = 'Using phpFCMv1!';
+    const TEST_IMAGE = 'https://fastly.picsum.photos/id/982/300/200.jpg?hmac=rd0sm-A6tmsIiavEE2p9ynoCVr9RDUCjJMjqOH7_pvA';
 
     public function testBuild() {
         $fcm = $this -> buildNotification(self::TEST_TITLE, self::TEST_BODY);
@@ -43,6 +45,35 @@ class FCMTest extends TestCase {
     public function testFire() {
         // $this -> markTestSkipped(__METHOD__ . ' already passed');
         $fcm = $this -> buildNotification(self::TEST_TITLE, self::TEST_BODY);
+        $result = $fcm -> fire();
+        echo $result;
+
+        $this -> assertTrue($result);
+    }
+
+    public function testBuildWithImage() {
+        $fcm = $this -> buildNotificationImage(self::TEST_TITLE, self::TEST_BODY);
+        $payload = $fcm -> getPayload();
+
+        $expected = array(
+            'token' => self::DEVICE_TOKEN,
+            'notification' => array(
+                'title' => self::TEST_TITLE,
+                'body' => self::TEST_BODY
+            ),
+            'android' => array(
+                'notification' => array(
+                    'image' => self::TEST_IMAGE
+                )
+            )
+        );
+        $this -> assertArrayHasKey('message', $payload);
+        $this -> assertEquals($expected, $payload['message']);
+    }
+
+    public function testFireImage() {
+        
+        $fcm = $this -> buildNotificationImage(self::TEST_TITLE, self::TEST_BODY);
         $result = $fcm -> fire();
         echo $result;
 
@@ -74,6 +105,29 @@ class FCMTest extends TestCase {
 
         $notification = new Notification();
         $notification -> setNotification($TEST_TITLE, $TEST_BODY);
+
+        $fcm = new Client(self::KEY_FILE);
+        $fcm -> setValidateOnly(true);
+        $fcm -> build($recipient, $notification, null, $config);
+
+        return $fcm;
+    }
+
+    /**
+     * @param $TEST_TITLE
+     * @param $TEST_BODY
+     * @param CommonConfig|null $config
+     * @return Client
+     */
+    public function buildNotificationImage($TEST_TITLE, $TEST_BODY, CommonConfig $config = null) {
+        $recipient = new Recipient();
+        $recipient -> setSingleRecipient(self::DEVICE_TOKEN);
+
+        $notification = new Notification();
+        $notification -> setNotification($TEST_TITLE, $TEST_BODY);
+
+        $config = new Config();
+        $config -> setImage(self::TEST_IMAGE);
 
         $fcm = new Client(self::KEY_FILE);
         $fcm -> setValidateOnly(true);
