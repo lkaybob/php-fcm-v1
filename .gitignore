@@ -92,6 +92,3 @@ phpunit.local.xml
 
 # Discard local php unit test
 phpunit.phar
-
-# Discard composer.lock references
-composer.lock
