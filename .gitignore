@@ -86,3 +86,9 @@ report/
 
 # PHP Unit Local Test Configureation
 phpunit.local.xml
+
+# PHP Unit Local Test Cache
+.phpunit.result.cache
+
+# Discard local php unit test
+phpunit.phar

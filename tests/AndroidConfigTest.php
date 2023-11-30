@@ -33,6 +33,16 @@ class AndroidConfigTest extends TestCase {
         $this -> assertArrayHasKey('priority', $payload['android']);
     }
 
+    function testSetImage() {
+        $instance = new AndroidConfig();
+        $instance -> setImage(FCMTest::TEST_IMAGE);
+        $payload = $instance -> getPayload();
+
+        $this -> assertArrayHasKey('android',$payload);
+        $this -> assertArrayHasKey('notification', $payload['android']);
+        $this -> assertArrayHasKey('image', $payload['android']['notification']);
+    }
+
     public function testSetTimeToLive() {
         $instance = new AndroidConfig();
         $instance -> setTimeToLive(4.0);
