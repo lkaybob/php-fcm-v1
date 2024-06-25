@@ -25,6 +25,10 @@ class Credentials {
     private $keyFilePath;
     private $DATA_TYPE;
 
+	// Added to save access_token and use it until expire
+	private $access_token = '';
+	private $expire = 0;
+
     /**
      * Credentials constructor. Checks whether given path is a valid file.
      * @param string                        $keyFile
@@ -46,14 +50,18 @@ class Credentials {
             'grant_type' => self::GRANT_TYPE,
             'assertion' => $this -> getTokenPayload()
         );
-
-        $result = $this -> getToken($requestBody);
-
-        if (isset($result['error'])) {
-            throw new \RuntimeException($result['error_description']);
+		if ( strlen( $this->access_token ) == 0 || ( $this->expire <= time() ) ) {
+	        $result = $this -> getToken($requestBody);
+    	    if (isset($result['error'])) {
+    	    	$this->access_token = '';
+    	    	$this->expire = 0;
+        	    throw new \RuntimeException($result['error_description']);
+        	} else {
+        		$this->access_token = $result['access_token'];
+        		$this->expire = time() + $result['expires_in'];
+        	}
         }
-
-        return $result['access_token'];
+        return $this->access_token;
     }
 
     /**

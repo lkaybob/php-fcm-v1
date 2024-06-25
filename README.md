@@ -11,12 +11,12 @@ php-fcm-v1 is an PHP implementation of [FCM](https://firebase.google.com/docs/cl
 ### What is different compared to others FCM Libraries?
 Most of other libraries are implementation of FCM's [Legacy HTTP Server Protocol](https://firebase.google.com/docs/cloud-messaging/http-server-ref). It requires a server key from Firebase console (which means you have to copy and paste in your code) ([Docs](https://firebase.google.com/docs/cloud-messaging/auth-server#authorize_legacy_protocol_send_requests))
 
-HTTP v1 API, in contrast, leverages OAuth2 security model. You need to get an access token (which is valid for about an hour) in order to request sending notification with service account's private key file. Although 
+HTTP v1 API, in contrast, leverages OAuth2 security model. You need to get an access token (which is valid for about an hour) in order to request sending notification with service account's private key file. Although
 (See the blog [post](https://firebase.googleblog.com/2017/11/whats-new-with-fcm-customizing-messages.html) about HTTP v1 API)
 
 ### References
 * [google/node-gtoken](https://github.com/google/node-gtoken)
-* [google/google-auth-library-nodejs](https://github.com/google/google-auth-library-nodejs) 
+* [google/google-auth-library-nodejs](https://github.com/google/google-auth-library-nodejs)
   : Above two libraries let me understand how HTTP v1 API works in FCM
 * [guzzlehttp/guzzle](https://github.com/guzzle/guzzle) : GuzzleHttp let this library to PSR7 compatible
 * [Paragraph1/php-fcm](https://github.com/Paragraph1/php-fcm) : Inspired me how FCM libraries are used in Legacy HTTP Protocol
@@ -94,6 +94,35 @@ HTTP v1 API, in contrast, leverages OAuth2 security model. You need to get an ac
   $client -> fire();
   ```
 
+* Example with payload data
+
+  ```php
+  <?php
+  require_once __DIR__ . '/vendor/autoload.php';
+
+  use phpFCMv1\Client;
+  use phpFCMv1\Notification;
+  use phpFCMv1\Recipient;
+  use phpFCMv1\Data;
+
+  $client = new Client('service_account.json');
+  $recipient = new Recipient();
+  $notification = new Notification();
+  $payload = new Data();
+
+  // extra payload must be contained in a "data" element
+  $foo['link'] = 'https://www.github.com';
+  $foo['id'] = '42';
+  $bar['data'] = $foo;
+
+  $payload->setPayload($bar);
+
+  $recipient -> setSingleRecipient('DEVICE_TOKEN');
+  $notification -> setNotification('NOTIFICATION_TITILE', 'NOTIFICATION_BODY');
+  $client -> build($recipient, $notification, $payload);
+  $client -> fire();
+  ```
+
 * Using with *PRIOIRTY* option (for both Android & iOS)
 
   ```php
@@ -125,7 +154,7 @@ HTTP v1 API, in contrast, leverages OAuth2 security model. You need to get an ac
   $androidConfig = new Config\AndroidConfig();
   $androidConfig -> setPriority(Config\AndroidConfig::PRIORITY_HIGH);
   $client -> build($recipient, $notification, null, $androidConfig);
-  
+
   // Option Instance for iOS (which is APNs header)
   // Use phpFCMv1\APNsCOnfig Class
   $apnsConfig = new APNsConfig();
